@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/constants/colors.dart';
 import 'package:todo_list/model/todo.dart';
+import 'package:todo_list/widgets/add_todo_item.dart';
 import 'package:todo_list/widgets/app_bar.dart';
+import 'package:todo_list/widgets/list_todo.dart';
 import 'package:todo_list/widgets/search_box.dart';
-import 'package:todo_list/widgets/todo_item.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: tdBgColor,
-      appBar: buildAppBar(),
+      appBar: BuildAppBar(),
       body: Stack(
         children: [
           Container(
@@ -38,77 +39,15 @@ class _HomeState extends State<Home> {
                 SearchBox(
                   onToDoChange: _handleSearch,
                 ),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 50, bottom: 20),
-                            child: const Text(
-                              'All ToDos',
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      for (ToDo toDo in _foundToDo.reversed)
-                        ToDoItem(
-                          toDo: toDo,
-                          onToDoChange: _handleToDoChange,
-                          onDeleteItem: _handleDeleteToDoItem,
-                        ),
-                    ],
-                  ),
-                )
+                ListToDo(
+                    onToDoChange: _handleToDoChange,
+                    onDeleteItem: _handleDeleteToDoItem,
+                    foundToDo: _foundToDo),
               ],
             ),
           ),
-          Align(
-              alignment: Alignment.bottomCenter,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(0.0, 0.0),
-                            blurRadius: 10.0,
-                            spreadRadius: 0,
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextField(
-                        controller: _toDoController,
-                        decoration: InputDecoration(
-                            hintText: 'Add a new  toDo item',
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.all(10)),
-                      ),
-                    ),
-                  ),
-                  Container(
-                      margin: EdgeInsets.only(bottom: 20, right: 20),
-                      child: IconButton(
-                        icon: Icon(Icons.add),
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll<Color>(tdBlue)),
-                        color: Colors.white,
-                        onPressed: () {
-                          _addToDoItem(_toDoController.text);
-                        },
-                      )),
-                ],
-              )),
+          AddToDoItem(
+              addToDoItem: _addToDoItem, toDoController: _toDoController),
         ],
       ),
     );

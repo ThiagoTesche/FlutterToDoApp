@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/constants/colors.dart';
 
-class buildAppBar extends StatelessWidget implements PreferredSizeWidget {
+class BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const BuildAppBar({super.key});
+
   Size get preferredSize => const Size.fromHeight(50);
 
   @override

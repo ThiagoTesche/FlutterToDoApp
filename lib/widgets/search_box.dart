@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_list/constants/colors.dart';
 
 class SearchBox extends StatelessWidget {
-  final onToDoChange;
+  final void Function(String) onToDoChange;
 
   const SearchBox({
     Key? key,
